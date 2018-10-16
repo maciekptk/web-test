@@ -2,15 +2,20 @@ package reserved.pl;
 
 import static org.testng.Assert.assertTrue;
 
+import driver.RemoteDriverCreator;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import driver.WebDriverCreator;
 import reserved.pl.testdata.UserDataProvider;
 import stores.reserved.commons.CommonTestSteps;
 import stores.reserved.page.PageObjectManager;
+
+import java.net.MalformedURLException;
 
 public class LoginTest {
 
@@ -20,8 +25,10 @@ public class LoginTest {
 	private static final String URL = "http://reserved.com/pl/pl";
 
 	@BeforeMethod
-	public void setUp() {
-		driver = new WebDriverCreator().createDriver("firefox");
+	@Parameters("browser")
+	public void setUp(String browser) throws MalformedURLException {
+//		driver = new WebDriverCreator().createDriver(browser);
+		driver = new RemoteDriverCreator().createDriver(browser);
 		commonTestSteps = new CommonTestSteps(driver);
 		manager = new PageObjectManager(driver);
 	}
